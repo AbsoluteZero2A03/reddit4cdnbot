@@ -10,17 +10,14 @@ def get_reddit_data():
     st = json.loads(res.text)
     objs = st["data"]["children"]
     links = map(lambda j: j["data"]["url"], objs)
-
     return links
     
 def get_4chan_images(links):
-    print len(links)
     items = []
     for i in range(len(links)):
         f=requests.get(links[i])
-        if f.status_code == 404:
+        if f.status_code != 200:
             continue
-        print f.headers["content-type"]
         items.append(f)
     return items
 
