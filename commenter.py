@@ -12,9 +12,18 @@ def reddit_authorize():
     token = res.json()[u"access_token"]
     return token
 
-def comment(token,thread,image):
-    pass
-
+def comment(token,thread,image_link):
+    headers = {"user-agent": "/u/4cdnbot", "Authorization": "bearer {0}".format(token)}
+    res = requests.get("https://reddit.com/api/me.json", headers=headers)
+    modhash = res.json()[u"data"][u"modhash"]
+    payload = {
+        "api_type": "json",
+        "text": "Imgur Mirror: {0}".format(image_link),
+        "thing_id": thread,
+        "uh" : modhash
+    }
+    res = requests.post("https://reddit.com/api/comment",data=payload,headers=headers)
+    return res.status_code
 
 if __name__ == "__main__":
     print reddit_authorize()
