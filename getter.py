@@ -9,14 +9,14 @@ def get_reddit_data():
         return 
     st = json.loads(res.text)
     objs = st["data"]["children"]
-    links = map(lambda j: j["data"]["url"], objs)
+    links = map(lambda j: { "url": j["data"]["url"], "id": j["kind"]+"_"+j["data"]["id"]}, objs)
     return links
     
 def get_4chan_images(links):
     print links
     items = []
     for i in range(len(links)):
-        f=requests.get(links[i])
+        f=requests.get(links[i]["url"])
         if f.status_code != 200:
             continue
         items.append(f)
@@ -24,4 +24,4 @@ def get_4chan_images(links):
 
 
 if __name__ == "__main__":
-    print get_4chan_images(get_reddit_data())
+    print get_reddit_data()
