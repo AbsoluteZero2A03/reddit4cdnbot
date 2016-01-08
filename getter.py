@@ -8,20 +8,10 @@ def get_reddit_data():
         print "too many requests" 
         return 
     st = json.loads(res.text)
+    print st["data"]
     objs = st["data"]["children"]
     links = map(lambda j: { "url": j["data"]["url"], "id": j["kind"]+"_"+j["data"]["id"]}, objs)
     return links
     
-def get_4chan_images(links):
-    print links
-    items = []
-    for i in range(len(links)):
-        f=requests.get(links[i]["url"])
-        if f.status_code != 200:
-            continue
-        items.append(f)
-    return items
-
-
 if __name__ == "__main__":
     print get_reddit_data()
