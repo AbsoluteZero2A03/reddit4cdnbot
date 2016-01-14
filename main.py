@@ -12,8 +12,4 @@ def iterate():
         except:
             pass
 if __name__ == "__main__":
-    #while True:
-    #    iterate()
-        #time.sleep(30)
-    #pass
     iterate()

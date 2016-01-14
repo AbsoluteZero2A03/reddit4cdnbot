@@ -19,17 +19,15 @@ def get_modhash(token):
 
 def comment(token,thread,image_link):
     headers = {"user-agent": "/u/4cdnbot", "Authorization": "bearer {0}".format(token)}
-    modhash = get_modhash(token)
     payload = {
         "api_type": "json",
-        "text": "Imgur Mirror: {0}".format(image_link),
+        "text": "[imgur mirror]({0})\n\nDon't directly link to 4chan!".format(image_link),
         "thing_id": thread,
-        "uh" : modhash
     }
-    res = requests.post("https://reddit.com/api/comment",data=payload,headers=headers)
+    res = requests.post("https://oauth.reddit.com/api/comment",data=payload,headers=headers)
+
+    print res.text
     return res.status_code
 
 if __name__ == "__main__":
-    r=reddit_authorize()
-    print r
-    print get_modhash(r)
+    print comment(reddit_authorize(),"t3_40mv5z", "www.google.com")
