@@ -24,6 +24,9 @@ def upload(link):
     if res.status_code == 200:
         return res.json()["data"]["link"]
     else:
+        print link
+        print res.text
+        print res.status_code
         raise Exception
 
 if __name__ == "__main__":

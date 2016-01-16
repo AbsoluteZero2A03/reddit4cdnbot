@@ -10,15 +10,18 @@ def iterate():
     checker.setup()
     links = getter.get_reddit_data()
     token = commenter.reddit_authorize()
-    print links
     for link in links:
         try:
             url, tid = link["url"], link["id"]
             image = uploader.upload(url)
-            commenter.comment(token,tid,image)
-            checker.add(tid)
-            checker.commit()
-            break
+            if not checker.check(tid):
+                result = False
+                while not result:
+                    print url, tid
+                    result = commenter.comment(token,tid,image)
+                    if result:
+                        checker.add(tid)
+                        checker.commit()
         except Exception as e:
             print sys.exc_info()
 if __name__ == "__main__":

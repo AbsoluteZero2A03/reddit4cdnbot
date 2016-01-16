@@ -24,8 +24,11 @@ def comment(token,thread,image_link):
     }
     res = requests.post("https://oauth.reddit.com/api/comment",data=payload,headers=headers)
 
-    print res.text
-    return res.status_code
+    if len(res.json()[u"json"][u"errors"]) == 0:
+        return True
+    else:
+        print res.text
+        return False
 
 if __name__ == "__main__":
     print comment(reddit_authorize(),"t3_416cxm", "http://www.google.com")
