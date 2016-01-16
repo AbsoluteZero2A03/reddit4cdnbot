@@ -3,8 +3,9 @@ import uploader
 import time
 
 def iterate():
-    links = getter.get_reddit_data()
+    links = [i["url"] for i in getter.get_reddit_data()]
     imgur_images = []
+    print links
     for link in links:
         try:
             imgur_images.append(uploader.upload(link))
