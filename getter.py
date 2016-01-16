@@ -8,10 +8,9 @@ def get_reddit_data():
         print "too many requests" 
         return 
     st = json.loads(res.text)
-    print st["data"]
     objs = st["data"]["children"]
     links = map(lambda j: { "url": j["data"]["url"], "id": j["kind"]+"_"+j["data"]["id"]}, objs)
     return links
-    
+
 if __name__ == "__main__":
     print get_reddit_data()

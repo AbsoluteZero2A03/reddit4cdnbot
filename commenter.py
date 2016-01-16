@@ -1,7 +1,5 @@
 import os
 import requests
-import oauth2
-import SimpleHTTPServer
 
 def reddit_authorize():
     payload={"grant_type": "password", "username": "4cdnbot", "password": os.environ["REDDIT_PASSWORD"]}
@@ -26,8 +24,8 @@ def comment(token,thread,image_link):
     }
     res = requests.post("https://oauth.reddit.com/api/comment",data=payload,headers=headers)
 
-    #print res.text
+    print res.text
     return res.status_code
 
 if __name__ == "__main__":
-    print comment(reddit_authorize(),"t3_40mv5z", "www.google.com")
+    print comment(reddit_authorize(),"t3_416cxm", "http://www.google.com")
