@@ -13,7 +13,7 @@ def reddit_authorize():
 def get_modhash(token):
     headers = {"User-Agent": "/u/4cdnbot", "Authorization": "bearer {0}".format(token)}
     auth_params=(os.environ["REDDIT_APP_ID"],os.environ["REDDIT_APP_SECRET"])
-    print headers
+    #print headers
     res2 = requests.get("https://oauth.reddit.com/api/v1/me.json", headers=headers)
     return res2.json()
 
@@ -26,7 +26,7 @@ def comment(token,thread,image_link):
     }
     res = requests.post("https://oauth.reddit.com/api/comment",data=payload,headers=headers)
 
-    print res.text
+    #print res.text
     return res.status_code
 
 if __name__ == "__main__":

@@ -1,14 +1,18 @@
 import getter
+import commenter 
+import checker
 import uploader
 import time
 
 def iterate():
     links = getter.get_reddit_data()
-    imgur_images = []
+    token = reddit_authorize()
     for link in links:
         try:
-            imgur_images.append(uploader.upload(link))
-            print imgur_images[-1]
+            url, tid = link["url"], link["id"]
+            image = uploader.upload(url)
+            commenter.comment(token,tid,image)
+            
         except:
             pass
 if __name__ == "__main__":
