@@ -1,5 +1,6 @@
 import getter
 import commenter 
+import requests
 import checker
 import uploader
 import time
@@ -13,17 +14,22 @@ def iterate():
     for link in links:
         try:
             url, tid = link["url"], link["id"]
+            print url, tid
+            fourchan_res = requests.head(url)        
+            if fourchan_res.status_code != 200:
+                continue
+            if checker.check(tid):
+                continue
             image = uploader.upload(url)
-            if not checker.check(tid):
-                result = False
-                while not result:
-                    print url, tid
-                    result = commenter.comment(token,tid,image)
-                    if result:
-                        checker.add(tid)
-                        checker.commit()
+            result = False
+            while not result:
+                result = commenter.comment(token,tid,image)
+                if result:
+                    checker.add(tid)
+                    checker.commit()
         except Exception as e:
             print sys.exc_info()
-if __name__ == "__main__":
-    iterate()
 
+if __name__ == "__main__":
+    while True:
+        iterate()
